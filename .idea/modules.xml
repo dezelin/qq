@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file:///mnt/work/QQ/QQ.iml" filepath="/mnt/work/QQ/QQ.iml" />
+      <module fileurl="file:///mnt/work/QQ/app/app.iml" filepath="/mnt/work/QQ/app/app.iml" />
+      <module fileurl="file:///mnt/work/QQ/common/common.iml" filepath="/mnt/work/QQ/common/common.iml" />
+      <module fileurl="file:///mnt/work/QQ/views/views.iml" filepath="/mnt/work/QQ/views/views.iml" />
+    </modules>
+  </component>
+</project>
