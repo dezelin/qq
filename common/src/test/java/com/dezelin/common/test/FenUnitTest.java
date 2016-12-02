@@ -1,8 +1,9 @@
 package com.dezelin.common.test;
 
 import com.dezelin.common.Chessman;
-import com.dezelin.common.FenBoardPosition;
+import com.dezelin.common.Fen;
 
+import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -20,7 +21,7 @@ import static junit.framework.Assert.assertTrue;
  * Created by dezelin on 28.11.16..
  */
 
-public class FenBoardPositionUnitTest {
+public class FenUnitTest {
 
     private static final String PIECES = "rnbqkbnrpRNBQKBNRP";
 
@@ -54,32 +55,24 @@ public class FenBoardPositionUnitTest {
 
      @Test
     public void board_Constructor() {
-        FenBoardPosition p = new FenBoardPosition(FEN0);
-        assertEquals(FEN0, p.getFen());
+         Fen p = new Fen(FEN0);
+         assertEquals(FEN0, p.toString());
+         assertTrue(p.isValid());
     }
 
     @Test
     public void iterator_hasNext_valid_fen() {
+        Fen p = new Fen(FEN0);
+        assertTrue(p.isValid());
 
-        int i;
-        FenBoardPosition p;
-
-        for(i = 0; i < 41; ++i) {
-            final char c = FEN0.charAt(i);
-            p = new FenBoardPosition(String.valueOf(c));
-            if(PIECES.indexOf(c) != -1) {
-                assertTrue(p.iterator().hasNext());
-            } else {
-                // Rank separator can't be the first FEN character
-                assertFalse(p.iterator().hasNext());
-            }
-        }
+        Iterator<Chessman> it = p.iterator();
+        assertTrue(it.hasNext());
     }
 
     @Test
     public void iterator_next_valid_fen0() {
         List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(FEN0);
+        Fen p = new Fen(FEN0);
         Iterator it = p.iterator();
 
         while(it.hasNext()) {
@@ -221,7 +214,7 @@ public class FenBoardPositionUnitTest {
     @Test
     public void iterator_next_valid_fen1() {
         List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(FEN1);
+        Fen p = new Fen(FEN1);
         Iterator it = p.iterator();
 
         while(it.hasNext()) {
@@ -364,7 +357,7 @@ public class FenBoardPositionUnitTest {
     @Test
     public void iterator_next_valid_fen2() {
         List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(FEN2);
+        Fen p = new Fen(FEN2);
         Iterator it = p.iterator();
 
         while(it.hasNext()) {
@@ -508,7 +501,7 @@ public class FenBoardPositionUnitTest {
     @Test
     public void iterator_next_valid_fen3() {
         List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(FEN3);
+        Fen p = new Fen(FEN3);
         Iterator it = p.iterator();
 
         while(it.hasNext()) {
@@ -651,308 +644,164 @@ public class FenBoardPositionUnitTest {
 
     @Test
     public void iterator_next_invalid_fen0() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN0);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 0);
-
+        Fen p = new Fen(INVALID_FEN0);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen1() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN1);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 0);
-
+        Fen p = new Fen(INVALID_FEN1);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen2() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN2);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 6);
-
+        Fen p = new Fen(INVALID_FEN2);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen3() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN3);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 11);
-
+        Fen p = new Fen(INVALID_FEN3);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen4() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN4);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 18);
-
+        Fen p = new Fen(INVALID_FEN4);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen5() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN5);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 24);
-
+        Fen p = new Fen(INVALID_FEN5);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen6() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN6);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 0);
-
+        Fen p = new Fen(INVALID_FEN6);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen7() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN7);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 1);
-
+        Fen p = new Fen(INVALID_FEN7);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen8() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN8);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 6);
-
+        Fen p = new Fen(INVALID_FEN8);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen9() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN9);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 8);
-
+        Fen p = new Fen(INVALID_FEN9);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen10() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN10);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 0);
-
+        Fen p = new Fen(INVALID_FEN10);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen11() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN11);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 0);
-
+        Fen p = new Fen(INVALID_FEN11);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen12() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN12);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 0);
-
+        Fen p = new Fen(INVALID_FEN12);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen13() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN13);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 1);
-
+        Fen p = new Fen(INVALID_FEN13);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen14() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN14);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 8);
-
+        Fen p = new Fen(INVALID_FEN14);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen15() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN15);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 9);
-
+        Fen p = new Fen(INVALID_FEN15);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen16() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN16);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 16);
-
+        Fen p = new Fen(INVALID_FEN16);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
     @Test
     public void iterator_next_invalid_fen17() {
-        List<Chessman> list = new ArrayList<>();
-        FenBoardPosition p = new FenBoardPosition(INVALID_FEN17);
-        Iterator it = p.iterator();
-
-        while (it.hasNext()) {
-            Chessman cm = (Chessman) it.next();
-            list.add(cm);
-        }
-
-        assertEquals(list.size(), 16);
-
+        Fen p = new Fen(INVALID_FEN17);
+        assertFalse(p.isValid());
+        assertFalse(p.iterator().hasNext());
         exception.expect(NoSuchElementException.class);
-        it.next();
+        p.iterator().next();
     }
 
 }

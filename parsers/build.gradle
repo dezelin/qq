@@ -1,0 +1,32 @@
+apply plugin: 'antlr'
+apply plugin: 'java'
+
+repositories {
+    jcenter()
+}
+
+def generatedFileDir = "${projectDir}/src/generated"
+
+sourceSets {
+    main {
+        java {
+            srcDirs += file(generatedFileDir)
+        }
+    }
+}
+
+generateGrammarSource {
+    maxHeapSize = '64m'
+    outputDirectory = file(generatedFileDir)
+    arguments += ['-visitor', '-long-messages']
+}
+
+dependencies {
+    antlr "org.antlr:antlr4:4.5"
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'org.tros:antlr4-runtime-android:4.5'
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

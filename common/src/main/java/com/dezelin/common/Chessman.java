@@ -20,18 +20,18 @@ public class Chessman {
     private static final Map<String, Chessman> mCache = new HashMap<>(64);
 
     public enum Symbol {
-        BLACK_KING('\u2654'),
-        BLACK_QUEEN('\u2655'),
-        BLACK_ROOK('\u2656'),
-        BLACK_BISHOP('\u2657'),
-        BLACK_KNIGHT('\u2658'),
-        BLACK_PAWN('\u2659'),
-        WHITE_KING('\u265A'),
-        WHITE_QUEEN('\u265B'),
-        WHITE_ROOK('\u265C'),
-        WHITE_BISHOP('\u265D'),
-        WHITE_KNIGHT('\u265E'),
-        WHITE_PAWN('\u265F')
+        BLACK_KING('k'),
+        BLACK_QUEEN('q'),
+        BLACK_ROOK('r'),
+        BLACK_BISHOP('b'),
+        BLACK_KNIGHT('n'),
+        BLACK_PAWN('p'),
+        WHITE_KING('K'),
+        WHITE_QUEEN('Q'),
+        WHITE_ROOK('R'),
+        WHITE_BISHOP('B'),
+        WHITE_KNIGHT('N'),
+        WHITE_PAWN('P')
         ;
 
         private final char mSymbol;
@@ -43,6 +43,26 @@ public class Chessman {
         @NonNull
         @Override
         public String toString() { return String.valueOf(mSymbol); }
+
+        public static Symbol fromOrdinal(int rank) {
+            switch (rank) {
+                case 0: return BLACK_KING;
+                case 1: return BLACK_QUEEN;
+                case 2: return BLACK_ROOK;
+                case 3: return BLACK_BISHOP;
+                case 4: return BLACK_KNIGHT;
+                case 5: return BLACK_PAWN;
+                case 6: return WHITE_KING;
+                case 7: return WHITE_QUEEN;
+                case 8: return WHITE_ROOK;
+                case 9: return WHITE_BISHOP;
+                case 10: return WHITE_KNIGHT;
+                case 11: return WHITE_PAWN;
+                default: {
+                    throw new RuntimeException();
+                }
+            }
+        }
 
         static public Symbol symbolFromChar(char c) {
             switch(c) {
