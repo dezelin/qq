@@ -11,6 +11,7 @@
             <option value="/mnt/work/QQ" />
             <option value="/mnt/work/QQ/app" />
             <option value="/mnt/work/QQ/common" />
+            <option value="/mnt/work/QQ/graphics" />
             <option value="/mnt/work/QQ/parsers" />
             <option value="/mnt/work/QQ/views" />
           </set>

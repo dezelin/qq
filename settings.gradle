@@ -1,1 +1,1 @@
-include ':app', ':common', ':parsers', ':views'
+include ':app', ':common', ':graphics', ':parsers', ':views'

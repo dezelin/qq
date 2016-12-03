@@ -15,7 +15,7 @@ import com.dezelin.common.BoardPosition;
 import com.dezelin.common.Chessman;
 import com.dezelin.common.Fen;
 
-import java.util.Iterator;
+import imageeffects.Effects;
 
 public class Board extends View {
 
@@ -121,7 +121,8 @@ public class Board extends View {
                 mPaint.setColor(Color.WHITE);
                 mPaint.setStyle(Paint.Style.FILL);
                 mRect.set(x, y, x + cellWidth, y + cellWidth);
-                canvas.drawBitmap(mBitmaps[piece.getSymbol().ordinal()], null, mRect, mPaint);
+                final Bitmap blurred = Effects.downsample(getContext(), mBitmaps[piece.getSymbol().ordinal()], cellWidth, cellWidth);
+                canvas.drawBitmap(blurred, null, mRect, mPaint);
             }
 
             if(mShowMargin && i == 0) {
